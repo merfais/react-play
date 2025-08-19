@@ -1,0 +1,209 @@
+// 以下为通用样式
+.display-hide {
+  display: none !important;
+}
+
+.display-inline {
+  display: inline-block;
+}
+
+.p-fixed {
+  position: fixed
+}
+
+.p-relative {
+  position: relative;
+}
+
+.p-absolute-cover {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.text {
+  &-center {
+    text-align: center;
+  }
+
+  &-right {
+    text-align: right;
+  }
+
+  &-bold {
+    font-weight: bold;
+  }
+}
+
+.white-bg {
+  background-color: #fff;
+}
+
+.white-059-bg {
+  background-color: var(--color-spin-layer-bg);
+}
+
+.flex {
+  display: flex;
+
+  &-justify-between {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &-justify-around {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  &-justify-start {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  &-justify-end {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &-justify-center {
+    display: flex;
+    justify-content: center;
+  }
+
+  &-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &-align-center {
+    display: flex;
+    align-items: center;
+  }
+
+  &-align-start {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  &-align-end {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  &-wrap {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &-1 {
+    flex: 1;
+  }
+  &-0-0-auto {
+    flex: 0 0 auto;
+  }
+  &-column {
+    display: flex;
+    flex-direction: column;
+  }
+  &-grow {
+    flex-grow: 1;
+  }
+}
+
+.height-100p {
+  height: 100%;
+}
+
+@border-color: #e5e5e5;
+.border {
+  border: 1px solid @border-color;
+}
+
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}
+
+.nowrap, .no-wrap {
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+// z-index
+@index: -1, 0, 1, 2, 3, 4, 5;
+each(@index, {
+  .z {
+    &-@{value} {
+      z-index: (@value * 1);
+    }
+  }
+});
+
+// 边距
+@lengths: 0, 2, 4, 6, 8, 12, 16, 20, 24, 32;
+
+each(@lengths, {
+  .p {
+    &-@{value} {
+      padding: (@value * 1px);
+    }
+    &-t-@{value} {
+      padding-top: (@value * 1px);
+    }
+    &-b-@{value} {
+      padding-bottom: (@value * 1px);
+    }
+    &-l-@{value} {
+      padding-left: (@value * 1px);
+    }
+    &-r-@{value} {
+      padding-right: (@value * 1px);
+    }
+    &-tb-@{value} {
+      padding-top: (@value * 1px);
+      padding-bottom: (@value * 1px);
+    }
+    &-lr-@{value} {
+      padding-left: (@value * 1px);
+      padding-right: (@value * 1px);
+    }
+  }
+  .m {
+    &-@{value} {
+      margin: (@value * 1px);
+    }
+    &-t-@{value} {
+      margin-top: (@value * 1px);
+    }
+    &-b-@{value} {
+      margin-bottom: (@value * 1px);
+    }
+    &-l-@{value} {
+      margin-left: (@value * 1px);
+    }
+    &-r-@{value} {
+      margin-right: (@value * 1px);
+    }
+    &-tb-@{value} {
+      margin-top: (@value * 1px);
+      margin-bottom: (@value * 1px);
+    }
+    &-lr-@{value} {
+      margin-left: (@value * 1px);
+      margin-right: (@value * 1px);
+    }
+  }
+});
+

@@ -1,0 +1,88 @@
+{
+  "compilerOptions": {
+    // 增量编译信息文件路径：存储编译缓存，加速后续编译（仅在 composite 模式下生效）
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+
+    // 编译目标 ES 版本：将 TS 代码编译为 ES2022 标准的 JS 代码（匹配现代浏览器支持范围）
+    "target": "ES2022",
+
+    // 包含的库文件：提供类型定义支持
+    // - ES2022：支持 ES2022 标准的 API 类型（如 Array.prototype.at、Top-level await 等）
+    // - DOM：提供浏览器环境基础类型（window、document 等）
+    // - DOM.Iterable：提供 DOM 可迭代对象类型（如 NodeList 的 for...of 迭代支持）
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+
+    // 模块系统：使用最新的 ESM 模块语法（import/export），支持动态 import() 等现代特性
+    "module": "ESNext",
+
+    // 类字段定义方式：使用 ES 标准的 Object.defineProperty 定义类字段（替代 TS 旧有逻辑）
+    // 使类属性初始化行为与现代 JS 标准一致（如继承场景的属性覆盖规则）
+    "useDefineForClassFields": true,
+
+    // 跳过第三方库类型检查：不检查 node_modules 中库的 .d.ts 文件（加速编译，避免库类型冲突）
+    "skipLibCheck": true,
+
+    /******************************* Bundler mode（构建工具模式，适配 Vite/Webpack 等） */
+
+    // 模块解析策略：使用构建工具的解析逻辑（而非 Node.js 规则）
+    // 支持 package.json#exports 字段、无扩展名导入、路径别名等构建工具特性
+    "moduleResolution": "bundler",
+
+    // 允许导入时带 TS 扩展名：支持 import './Component.tsx' 此类带 .ts/.tsx 后缀的导入
+    // 适配构建工具的开发模式（构建工具会自动处理扩展名）
+    "allowImportingTsExtensions": true,
+
+    // 保留原始模块语法：不自动转换 import/export 语法（如不将 import 转为 require）
+    // 确保模块语法完全由构建工具控制，避免 TS 转换与构建工具冲突
+    "verbatimModuleSyntax": true,
+
+    // 强制模块检测：即使文件没有显式 import/export，也视为模块（避免全局作用域污染）
+    // 防止多个文件中同名变量冲突（如两个文件都定义 const x = 1 会报错）
+    "moduleDetection": "force",
+
+    "allowSyntheticDefaultImports": true,        // 允许默认导入无默认导出的模块（默认 false）
+    "esModuleInterop": true,                     // 允许 CommonJS/ES 模块互操作（默认 false）
+    "resolveJsonModule": true,                   // 允许导入 JSON（默认 false）
+
+    // 不生成编译产物：仅做类型检查，由构建工具（如 Vite）负责将 TS 转为 JS
+    "noEmit": true,
+
+    // JSX 转换方式：使用 React 17+ 自动 JSX 转换（无需在文件顶部 import React）
+    // 编译后 JSX 会被转为 React.createElement 或新的 JSX 运行时调用
+    "jsx": "react-jsx",
+
+    /************************************************ Linting（代码检查规则，增强类型安全性） */
+
+    // 开启所有严格类型检查：启用 strictNullChecks、noImplicitAny 等子选项（核心安全配置）
+    "strict": true,
+
+    // 禁止未使用的局部变量：检测并报错未使用的变量（如 let a = 1; 但后续未使用 a）
+    "noUnusedLocals": true,
+
+    // 禁止未使用的函数参数：检测并报错函数中未使用的参数（如 (a, b) => { return a; } 中 b 未使用）
+    // "noUnusedParameters": true,
+
+    // 仅允许可擦除的语法：确保 TS 特有语法（如类型注释、接口）可被完全移除（不影响最终 JS 代码）
+    // 避免在代码中使用不可擦除的 TS 语法（如 namespace），确保与构建工具兼容
+    "erasableSyntaxOnly": true,
+
+    // 禁止 switch 穿透：switch 语句中 case 块未以 break/return 结束时报错（避免逻辑错误）
+    // 如 case 1: console.log(1); case 2: ... 会报错（缺少 break）
+    "noFallthroughCasesInSwitch": true,
+
+    // 检查有副作用的导入：确保导入语句（如 import './style.css'）的副作用不被误判为无用代码
+    // 防止构建工具（如 Tree-shaking）意外删除有必要副作用的导入（如样式、初始化代码）
+    "noUncheckedSideEffectImports": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "/src/*": ["./src/*"],
+      "/pages/*": ["./src/pages/*"],
+      "@/*": ["./src/*"]
+    }
+  },
+  // 指定需要编译的文件范围：仅处理 src 目录下的所有文件（包括子目录）
+  "include": ["src", "src/**/*.tsx", "src/**/*.ts"],  // 需要编译的文件（默认是**/*，显式限制更安全）
+  "exclude": ["node_modules", "dist", "build"]       // 排除目录（默认含 node_modules，补充 dist/build）
+}
+
